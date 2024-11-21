@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="shortcut icon" type="png" href="images/icon/favicon.png" />
+    <title>Login SignUp</title>
+    <link rel="stylesheet" type="text/css" href="loginStyle.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- It will redirect to the Home Page after submitting the form -->
+    <script>
+      $(document).ready(function () {
+        $("form").submit(function () {
+          alert("Great Job !");
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="form-box">
+      <div class="button-box">
+        <div id="btn"></div>
+        <button
+          type="button" class="toggle-btn" id="log" onclick="login()" style="color: #fff"> Log In
+        </button>
+        <button type="button" class="toggle-btn" id="reg" onclick="register()">
+          Register
+        </button>
+      </div>
+      <div class="social-icons">
+        <img src="images/icon/fb2.png" />
+        <img src="images/icon/insta2.png" />
+        <img src="images/icon/tt2.png" />
+      </div>
+
+      <!-- Login Form -->
+      <form id="login" class="input-group" action="index.html">
+        <div class="inp">
+          <input
+            type="text" id="Name" name="FullName"   class="input-field" placeholder="Username or Phone Number" style="width: 88%; border: none;"  required="required" />
+        </div>
+        <div class="inp">
+          <input
+            type="text"  id="Userid" name="Userid"class="input-field" placeholder="UserId" style="width: 88%; border: none"   required="required"/>
+        </div>
+        <div class="inp">
+          <input
+            type="password"id="Password" name="Password"  class="input-field"  placeholder="Password" style="width: 88%; border: none" required="required"/>
+        </div>
+
+        <input type="checkbox" class="check-box" />Remember Password
+        <button type="submit" class="submit-btn">Log In</button>
+      </form>
+
+      <!-- Registration Form -->
+      <form action="index.html" method="post" id="register" class="input-group">
+        
+        <input type="text"  class="input-field" name="Userid" placeholder="User ID" required="required"/>
+        <input type="text" class="input-field" name="Fullname" placeholder="Full Name"  required="required" />
+        <input type="email" class="input-field" name="Email"placeholder="Email Address"required="required" />
+        <input type="password" class="input-field" name="password" placeholder="Create Password" name="psame" required="required" />
+        <input  type="checkbox"class="check-box" id="chkAgree" onclick="goFurther()" />I agree to the Terms & Conditions
+		  <button type="submit" id="btnSubmit" class="submit-btn reg-btn"> Register </button>
+      </form>
+    </div>
+    <script type="text/javascript" src="script.js">
+
+
+   // Import the mysql module
+const mysql = require('root@localhost:33060/MySQLconection');
+// Create a connection to the MySQL database
+const connection = mysql.createConnection(
+{
+  host: 'localhost',
+  user: 'root',
+  password: 'hemanth@1234',
+  database: 'mysql'
+});
+
+// Connect to the database
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+    return;
+  }
+  console.log('Connected to the database!');
+});
+
+// Function to insert user data into the register table
+function registerUser( Userid,Fullname,Email,password) {
+  const insertQuery = `INSERT INTO register ( Userid,Fullname,Email, password) VALUES (?, ?, ?, ?)`;
+  connection.query(insertQuery, [Fullname, Userid, Email, password], (err, result) => {
+    if (err) {
+      console.error('Error inserting data:', err);
+      return;
+    }
+    console.log('Data inserted successfully.');
+  });
+}
+// Don't forget to end the connection when done
+connection.end((err) => {
+  if (err) {
+    console.error('Error ending the connection:', err);
+    return;
+  }
+  console.log('Connection to the database closed.');
+});
+
+
+    </script>
+  </body>
+</html>
